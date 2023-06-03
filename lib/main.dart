@@ -1,14 +1,22 @@
 //import 'dart:js_util';
 
 import 'package:flutter/material.dart';
+import 'package:card_ui/titlted_card.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+int count = 0;
+
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -77,7 +85,102 @@ class MyApp extends StatelessWidget {
                     fontSize: 50.0,
                   ),
                 ),
-              )
+              ),
+              Container(
+                padding: EdgeInsets.all(15),
+                alignment: Alignment.center,
+                color: Colors.black,
+                child: Text(
+                  'Get a new idea in each swipe and let your creative juices flow!',
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  padding: EdgeInsets.all(20),
+                  alignment: Alignment.center,
+                  color: Colors.black,
+                  child: GestureDetector(
+                    onPanUpdate: (details) {
+                      if (details.delta.dx > 0) {
+                        // Swiped right.
+                        setState(() {
+                          count++;
+                          if (count > 10) {
+                            count = 10;
+                          }
+                        });
+                      } //else if (details.delta.dx < 0) {
+                      // Swiped left.
+                      //}
+                    },
+                    child: TiltedCard(
+                      child: SizedBox(
+                        width: 225,
+                        height: 300,
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 50,
+                            ),
+                            Icon(
+                              Icons.notifications,
+                              color: Colors.brown,
+                              size: 60,
+                            ),
+                            Text(
+                              'TripPorter',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w900,
+                                fontSize: 20,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              'An online platform to help travelers plan and book their trips conviniently',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 15,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Container(
+                              padding: EdgeInsets.all(15),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Icon(
+                                    Icons.cancel,
+                                    color: Colors.black,
+                                  ),
+                                  Text(
+                                    '$count',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  Icon(
+                                    Icons.favorite,
+                                    color: Colors.red,
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
